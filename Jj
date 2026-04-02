@@ -83,35 +83,55 @@ end
 
 local OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/bananaGanteng/Legend/refs/heads/main/BedahNih.lua"))()
 
-local Window = OrionLib:MakeWindow({Name = "km main", HidePremium = false, SaveConfig = true, ConfigFolder = "OrionTest"})
-
-
-local Tab = Window:MakeTab({
-        Name = "Farm",
-        Icon = "rbxassetid://4483345998",
-        PremiumOnly = false
+local Window = OrionLib:MakeWindow({
+    Name = "km main",
+    HidePremium = false,
+    SaveConfig = true,
+    ConfigFolder = "OrionTest"
 })
 
-
+local Tab = Window:MakeTab({
+    Name = "Farm",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
 
 local Players = game:GetService("Players")
-local player = Players.LocalPlayer  -- pastikan ini LocalScript
+local player = Players.LocalPlayer
 
--- Tambahkan paragraf dengan nama player
 Tab:AddParagraph("KM Hub", "Welcome, " .. player.Name)
 
+-- Variable del toggle
+local AutoGlitchEnabled = false
 
+-- Función AutoGlitch (corregida)
 local function AutoGlitch()
-    while IS_OWNER do
-        local GlitchRemote = game.ReplicatedStorage:FindFirstChild("GlitchPower", true) or game.ReplicatedStorage:FindFirstChild("BoostPower", true)
+    while AutoGlitchEnabled do
+        local GlitchRemote = game.ReplicatedStorage:FindFirstChild("GlitchPower", true) 
+            or game.ReplicatedStorage:FindFirstChild("BoostPower", true)
+
         if GlitchRemote then
             GlitchRemote:FireServer(math.huge)
         else
-            print("[AUTO-GLITCH] Remote not found - Retrying...")
+            warn("[AUTO-GLITCH] Remote not found - Retrying...")
         end
-        wait(0.1)
+
+        task.wait(0.1)
     end
 end
+
+-- Toggle
+Tab:AddToggle({
+    Name = "Auto Glitch",
+    Default = false,
+    Callback = function(Value)
+        AutoGlitchEnabled = Value
+
+        if Value then
+            task.spawn(AutoGlitch) -- inicia el loop sin freeze
+        end
+    end    
+})
 
 local function AutoRebirth()
     while IS_OWNER do
