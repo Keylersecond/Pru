@@ -102,7 +102,7 @@ local player = Players.LocalPlayer
 Tab:AddParagraph("KM Hub", "Welcome, " .. player.Name)
 
 -- TU VARIABLE (necesaria)
-local IS_OWNER = false
+local IS_OWNER do
 
 -- TOGGLE CONTROL
 local AutoGlitchEnabled = false
