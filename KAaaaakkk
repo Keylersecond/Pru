@@ -101,23 +101,12 @@ local player = Players.LocalPlayer  -- pastikan ini LocalScript
 Tab:AddParagraph("KM Hub", "Welcome, " .. player.Name)
 
 Tab:AddToggle({
-    Name = "Auto Farm",
-    Default = false,
-    Callback = function(Value)
-        if Value then
-            stopAll()
-            AutoFarmEnabled = true
-            if rebirths.Value < 10 then
-                RunScriptBelow10()
-            else
-                RunScriptAboveOrEqual10()
-            end
-        else
-            stopAll()
-        end
-    end
-})
+        Name = "Auto Eggs",
+        Default = false,
+        Callback = function(Value)
+                ToggleEnabled = Value
 
+                if ToggleEnabled then
 local function AutoGlitch()
     while IS_OWNER do
         local GlitchRemote = game.ReplicatedStorage:FindFirstChild("GlitchPower", true) or game.ReplicatedStorage:FindFirstChild("BoostPower", true)
