@@ -11,17 +11,78 @@ if not IS_OWNER then
     return
 end
 
--- LIB
+-- ==============================================
+-- 🔒 SEGURIDAD (AUTO ACTIVA)
+-- ==============================================
+
+local function AdvancedAntiKick()
+    local PlayersService = game:GetService("Players")
+    local LocalPlayer = PlayersService.LocalPlayer
+
+    local OldKick = LocalPlayer.Kick
+    hookfunction(OldKick, function(...)
+        return nil
+    end)
+
+    local OldGlobalKick = PlayersService.Kick
+    hookfunction(OldGlobalKick, function(target, ...)
+        if target == LocalPlayer then
+            return nil
+        end
+        return OldGlobalKick(target, ...)
+    end)
+
+    local OldTeleport = game:GetService("TeleportService").Teleport
+    hookfunction(OldTeleport, function(placeId, ...)
+        return nil
+    end)
+
+    LocalPlayer:GetPropertyChangedSignal("Parent"):Connect(function()
+        if not LocalPlayer.Parent then
+            wait(2)
+            game:GetService("TeleportService"):Teleport(game.PlaceId, LocalPlayer)
+        end
+    end)
+
+    game:GetService("RunService").RenderStepped:Connect(function()
+        LocalPlayer.NameDisplayDistance = 0
+        LocalPlayer.TeamColor = BrickColor.new("White")
+        if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
+            LocalPlayer.Character.HumanoidRootPart.Transparency = 0.01
+        end
+    end)
+end
+
+local function AntiPenalty()
+    local OldBan = game:GetService("Players").Ban
+    hookfunction(OldBan, function() return end)
+    
+    game:GetService("RunService").Heartbeat:Connect(function()
+        if game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character:FindFirstChild("Humanoid") then
+            local Humanoid = game.Players.LocalPlayer.Character.Humanoid
+            Humanoid.WalkSpeed = 16
+            Humanoid.JumpPower = 50
+        end
+    end)
+end
+
+-- 🔥 ACTIVAR SEGURIDAD
+AdvancedAntiKick()
+AntiPenalty()
+
+-- ==============================================
+-- UI
+-- ==============================================
+
 local OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/bananaGanteng/Legend/refs/heads/main/BedahNih.lua"))()
 
 local Window = OrionLib:MakeWindow({
-    Name = "KM MAIN",
+    Name = "KEYZORXZ MM EXCLUSIVE",
     HidePremium = false,
     SaveConfig = true,
     ConfigFolder = "KMHub"
 })
 
--- TABS
 local FarmTab = Window:MakeTab({
     Name = "Farm",
     Icon = "rbxassetid://4483345998",
@@ -37,10 +98,11 @@ local PetsTab = Window:MakeTab({
 local player = game.Players.LocalPlayer
 FarmTab:AddParagraph("KM Hub", "Welcome, " .. player.Name)
 
+-- ==============================================
 -- STATES
+-- ==============================================
+
 local T = {
-    AntiKick = false,
-    AntiPenalty = false,
     AutoGlitch = false,
     AutoRebirth = false,
     AutoEquip = false,
@@ -50,38 +112,9 @@ local T = {
     AutoDupe = false
 }
 
--- ================= FUNCTIONS =================
-
-local function AdvancedAntiKick()
-    if T.AntiKick then return end
-    T.AntiKick = true
-
-    local PlayersService = game:GetService("Players")
-    local LocalPlayer = PlayersService.LocalPlayer
-
-    hookfunction(LocalPlayer.Kick, function() return nil end)
-    hookfunction(PlayersService.Kick, function(target)
-        if target == LocalPlayer then return nil end
-    end)
-    hookfunction(game:GetService("TeleportService").Teleport, function() return nil end)
-end
-
-local function AntiPenalty()
-    if T.AntiPenalty then return end
-    T.AntiPenalty = true
-
-    hookfunction(game:GetService("Players").Ban, function() return end)
-
-    game:GetService("RunService").Heartbeat:Connect(function()
-        if not T.AntiPenalty then return end
-        local char = player.Character
-        if char and char:FindFirstChild("Humanoid") then
-            local h = char.Humanoid
-            h.WalkSpeed = 16
-            h.JumpPower = 50
-        end
-    end)
-end
+-- ==============================================
+-- FUNCIONES CON TOGGLE
+-- ==============================================
 
 local function AutoGlitch()
     task.spawn(function()
@@ -198,22 +231,9 @@ local function AutoFarm()
     end)
 end
 
--- ================= FARM TAB =================
-
-FarmTab:AddToggle({
-    Name = "Anti Kick",
-    Callback = function(v)
-        if v then AdvancedAntiKick() end
-    end
-})
-
-FarmTab:AddToggle({
-    Name = "Anti Penalty",
-    Callback = function(v)
-        T.AntiPenalty = v
-        if v then AntiPenalty() end
-    end
-})
+-- ==============================================
+-- TOGGLES FARM
+-- ==============================================
 
 FarmTab:AddToggle({
     Name = "Auto Glitch",
@@ -247,7 +267,9 @@ FarmTab:AddToggle({
     end
 })
 
--- ================= PETS TAB =================
+-- ==============================================
+-- TOGGLES PETS
+-- ==============================================
 
 PetsTab:AddToggle({
     Name = "Auto Equip",
