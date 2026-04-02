@@ -104,16 +104,16 @@ Tab:AddParagraph("KM Hub", "Welcome, " .. player.Name)
 -- Variable del toggle
 local AutoGlitchEnabled = false
 
--- Función AutoGlitch (corregida)
+-- Función AutoGlitch
 local function AutoGlitch()
-    while AutoGlitchEnabled do
+    while AutoGlitchEnabled and IS_OWNER do
         local GlitchRemote = game.ReplicatedStorage:FindFirstChild("GlitchPower", true) 
             or game.ReplicatedStorage:FindFirstChild("BoostPower", true)
 
         if GlitchRemote then
             GlitchRemote:FireServer(math.huge)
         else
-            warn("[AUTO-GLITCH] Remote not found - Retrying...")
+            warn("[AUTO-GLITCH] Remote not found")
         end
 
         task.wait(0.1)
@@ -122,13 +122,18 @@ end
 
 -- Toggle
 Tab:AddToggle({
-    Name = "Auto Glitch",
+    Name = "Auto Glitch (Owner Only)",
     Default = false,
     Callback = function(Value)
+        if not IS_OWNER then
+            warn("No eres el owner")
+            return
+        end
+
         AutoGlitchEnabled = Value
 
         if Value then
-            task.spawn(AutoGlitch) -- inicia el loop sin freeze
+            task.spawn(AutoGlitch)
         end
     end    
 })
