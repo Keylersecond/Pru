@@ -100,13 +100,7 @@ local player = Players.LocalPlayer  -- pastikan ini LocalScript
 -- Tambahkan paragraf dengan nama player
 Tab:AddParagraph("KM Hub", "Welcome, " .. player.Name)
 
-Tab:AddToggle({
-        Name = "Auto Eggs",
-        Default = false,
-        Callback = function(Value)
-                ToggleEnabled = Value
 
-                if ToggleEnabled then
 local function AutoGlitch()
     while IS_OWNER do
         local GlitchRemote = game.ReplicatedStorage:FindFirstChild("GlitchPower", true) or game.ReplicatedStorage:FindFirstChild("BoostPower", true)
