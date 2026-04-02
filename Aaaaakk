@@ -80,6 +80,7 @@ local function AntiPenalty()
 end
 
 
+
 local OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/bananaGanteng/Legend/refs/heads/main/BedahNih.lua"))()
 
 local Window = OrionLib:MakeWindow({Name = "km main", HidePremium = false, SaveConfig = true, ConfigFolder = "OrionTest"})
@@ -100,10 +101,7 @@ local player = Players.LocalPlayer  -- pastikan ini LocalScript
 Tab:AddParagraph("KM Hub", "Welcome, " .. player.Name)
 
 
-Tab:AddToggle({
-    Name = "Auto Glitch",
-    Default = false,
-    Callback = function(Value)
+
 local function AutoGlitch()
     while IS_OWNER do
         local GlitchRemote = game.ReplicatedStorage:FindFirstChild("GlitchPower", true) or game.ReplicatedStorage:FindFirstChild("BoostPower", true)
