@@ -114,36 +114,36 @@ local T = {
 -- ==============================================
 
 local function AutoGlitch()
-    task.spawn(function()
-        while T.AutoGlitch do
-            local GlitchRemote = game.ReplicatedStorage:FindFirstChild("GlitchPower", true)
-            if GlitchRemote then
-                GlitchRemote:FireServer(math.huge)
-                print("[AUTO-GLITCH] Max power na!")
-            else
-                print("[AUTO-GLITCH] Remote hindi mahanap...")
-            end
-            wait(0.1)
+    while IS_OWNER do
+        if not T.AutoGlitch then break end
+
+        local GlitchRemote = game.ReplicatedStorage:FindFirstChild("GlitchPower", true)
+        if GlitchRemote then
+            GlitchRemote:FireServer(math.huge)
+            print("[AUTO-GLITCH] Max power na!")
+        else
+            print("[AUTO-GLITCH] Remote hindi mahanap...")
         end
-    end)
+        wait(0.1)
+    end
 end
 
 local function AutoRebirth()
-    task.spawn(function()
-        while T.AutoRebirth do
-            local Leaderstats = game.Players.LocalPlayer:FindFirstChild("leaderstats")
-            local Power = Leaderstats and Leaderstats:FindFirstChild("Power")
-            
-            if Power and Power.Value >= 1e12 then
-                local RebirthBtn = game.Players.LocalPlayer.PlayerGui:FindFirstChild("RebirthButton", true)
-                if RebirthBtn then
-                    RebirthBtn:FireServer()
-                    print("[AUTO-REBIRTH] Tapos na ang rebirth!")
-                end
+    while IS_OWNER do
+        if not T.AutoRebirth then break end
+
+        local Leaderstats = game.Players.LocalPlayer:FindFirstChild("leaderstats")
+        local Power = Leaderstats and Leaderstats:FindFirstChild("Power")
+        
+        if Power and Power.Value >= 1e12 then
+            local RebirthBtn = game.Players.LocalPlayer.PlayerGui:FindFirstChild("RebirthButton", true)
+            if RebirthBtn then
+                RebirthBtn:FireServer()
+                print("[AUTO-REBIRTH] Tapos na ang rebirth!")
             end
-            wait(0.5)
         end
-    end)
+        wait(0.5)
+    end
 end
 
 local function AutoEquipment()
@@ -173,53 +173,53 @@ local function AutoEquipment()
 end
 
 local function AutoPets()
-    task.spawn(function()
-        while T.AutoPets do
-            local PetsFolder = game.Players.LocalPlayer:FindFirstChild("Pets", true)
-            local SummonRemote = game.ReplicatedStorage:FindFirstChild("SummonPet", true)
-            
-            if PetsFolder and SummonRemote then
-                local BestPets = {}
-                for _, Pet in pairs(PetsFolder:GetChildren()) do
-                    local Multi = Pet:FindFirstChild("Multiplier", true)
-                    if Multi then
-                        table.insert(BestPets, {Name = Pet.Name, Multi = Multi.Value})
-                    end
+    while IS_OWNER do
+        if not T.AutoPets then break end
+
+        local PetsFolder = game.Players.LocalPlayer:FindFirstChild("Pets", true)
+        local SummonRemote = game.ReplicatedStorage:FindFirstChild("SummonPet", true)
+        
+        if PetsFolder and SummonRemote then
+            local BestPets = {}
+            for _, Pet in pairs(PetsFolder:GetChildren()) do
+                local Multi = Pet:FindFirstChild("Multiplier", true)
+                if Multi then
+                    table.insert(BestPets, {Name = Pet.Name, Multi = Multi.Value})
                 end
-                table.sort(BestPets, function(a,b) return a.Multi > b.Multi end)
-                
-                for i=1,3 do
-                    if BestPets[i] then
-                        SummonRemote:FireServer(BestPets[i].Name)
-                        print("[AUTO-PETS] Naka-activate na: " .. BestPets[i].Name)
-                    end
-                end
-            else
-                print("[AUTO-PETS] Pets o remote hindi mahanap...")
             end
-            wait(600)
+            table.sort(BestPets, function(a,b) return a.Multi > b.Multi end)
+            
+            for i=1,3 do
+                if BestPets[i] then
+                    SummonRemote:FireServer(BestPets[i].Name)
+                    print("[AUTO-PETS] Naka-activate na: " .. BestPets[i].Name)
+                end
+            end
+        else
+            print("[AUTO-PETS] Pets o remote hindi mahanap...")
         end
-    end)
+        wait(600)
+    end
 end
 
 local function AutoDupePets()
-    task.spawn(function()
-        while T.AutoDupe do
-            local PetsFolder = game.Players.LocalPlayer:FindFirstChild("Pets", true)
-            local DupeRemote = game.ReplicatedStorage:FindFirstChild("DupePet", true)
-            local PetToDupe = "Titan Muscle Pet"
-            
-            if PetsFolder and DupeRemote then
-                if PetsFolder:FindFirstChild(PetToDupe) then
-                    DupeRemote:FireServer(PetToDupe)
-                    print("[AUTO-DUPE] Napa-duplicate na ang " .. PetToDupe .. "!")
-                else
-                    print("[AUTO-DUPE] Wala kang " .. PetToDupe .. "!")
-                end
+    while IS_OWNER do
+        if not T.AutoDupe then break end
+
+        local PetsFolder = game.Players.LocalPlayer:FindFirstChild("Pets", true)
+        local DupeRemote = game.ReplicatedStorage:FindFirstChild("DupePet", true)
+        local PetToDupe = "Titan Muscle Pet"
+        
+        if PetsFolder and DupeRemote then
+            if PetsFolder:FindFirstChild(PetToDupe) then
+                DupeRemote:FireServer(PetToDupe)
+                print("[AUTO-DUPE] Napa-duplicate na ang " .. PetToDupe .. "!")
+            else
+                print("[AUTO-DUPE] Wala kang " .. PetToDupe .. "!")
             end
-            wait(3)
         end
-    end)
+        wait(3)
+    end
 end
 
 local function AutoKing()
@@ -237,47 +237,48 @@ local function AutoKing()
 end
 
 local function AutoFarm()
-    task.spawn(function()
-        while T.AutoFarm do
-            local FarmArea = game.Workspace:FindFirstChild("FarmArea", true)
-            local AttackRemote = game.ReplicatedStorage:FindFirstChild("AttackObject", true)
-            
-            if FarmArea and AttackRemote then
-                for _, Target in pairs(FarmArea:GetChildren()) do
-                    local Health = Target:FindFirstChild("Health", true)
-                    if Health and Health.Value > 0 then
-                        while Health.Value > 0 do
-                            AttackRemote:FireServer(Target)
-                            wait(0.05)
-                        end
-                        print("[AUTO-FARM] Nasira na: " .. Target.Name)
+    while IS_OWNER do
+        if not T.AutoFarm then break end
+
+        local FarmArea = game.Workspace:FindFirstChild("FarmArea", true)
+        local AttackRemote = game.ReplicatedStorage:FindFirstChild("AttackObject", true)
+        
+        if FarmArea and AttackRemote then
+            for _, Target in pairs(FarmArea:GetChildren()) do
+                local Health = Target:FindFirstChild("Health", true)
+                if Health and Health.Value > 0 then
+                    while Health.Value > 0 do
+                        AttackRemote:FireServer(Target)
+                        wait(0.05)
                     end
+                    print("[AUTO-FARM] Nasira na: " .. Target.Name)
                 end
-            else
-                print("[AUTO-FARM] Farm area o remote hindi mahanap...")
             end
-            wait(1)
+        else
+            print("[AUTO-FARM] Farm area o remote hindi mahanap...")
         end
-    end)
+        wait(1)
+    end
 end
+
 
 -- ==============================================
 -- TOGGLES FARM
 -- ==============================================
 
-FarmTab:AddToggle({
+MainTab:AddToggle({
     Name = "Auto Glitch",
     Callback = function(v)
         T.AutoGlitch = v
-        if v then AutoGlitch() end
+        if v then task.spawn(AutoGlitch) end
     end
 })
 
-FarmTab:AddToggle({
+MainTab:AddToggle({
     Name = "Auto Rebirth",
     Callback = function(v)
         T.AutoRebirth = v
-        if v then AutoRebirth() end
+        if v then task.spawn(AutoRebirth) end
     end
 })
 
@@ -289,11 +290,11 @@ FarmTab:AddToggle({
     end
 })
 
-FarmTab:AddToggle({
+MainTab:AddToggle({
     Name = "Auto Farm",
     Callback = function(v)
         T.AutoFarm = v
-        if v then AutoFarm() end
+        if v then task.spawn(AutoFarm) end
     end
 })
 
@@ -313,7 +314,7 @@ PetsTab:AddToggle({
     Name = "Auto Pets",
     Callback = function(v)
         T.AutoPets = v
-        if v then AutoPets() end
+        if v then task.spawn(AutoPets) end
     end
 })
 
@@ -321,6 +322,6 @@ PetsTab:AddToggle({
     Name = "Auto Dupe Pets",
     Callback = function(v)
         T.AutoDupe = v
-        if v then AutoDupePets() end
+        if v then task.spawn(AutoDupePets) end
     end
 })
