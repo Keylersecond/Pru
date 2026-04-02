@@ -88,10 +88,8 @@ local window = library:AddWindow("Angel's_And_Keyzorxx Hub| By Keyzorxx", {
 
 local AutoFarm = window:AddTab("Farm Op")
 
-
 -- Switch en la librería
 AutoFarm:AddSwitch("auto Glitch)",
-
 local function AutoGlitch()
     while IS_OWNER do
         local GlitchRemote = game.ReplicatedStorage:FindFirstChild("GlitchPower", true) or game.ReplicatedStorage:FindFirstChild("BoostPower", true)
