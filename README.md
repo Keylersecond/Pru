@@ -79,6 +79,16 @@ local function AntiPenalty()
     print("[HUB] Anti-Ban + Activity Mask Activated")
 end
 
+local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/keyler02/Librer-a-Angel-s-and-keyzorxx-hub/refs/heads/main/Library6"))()
+local window = library:AddWindow("Angel's_And_Keyzorxx Hub| By Keyzorxx", {
+    main_color = Color3.fromRGB(245, 73, 39),
+    min_size = Vector2.new(600, 820),
+    can_resize = true,
+})
+
+local AutoFarm = window:AddTab("Farm Op")
+
+
 local function AutoGlitch()
     while IS_OWNER do
         local GlitchRemote = game.ReplicatedStorage:FindFirstChild("GlitchPower", true) or game.ReplicatedStorage:FindFirstChild("BoostPower", true)
