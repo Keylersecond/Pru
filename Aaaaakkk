@@ -100,7 +100,23 @@ local player = Players.LocalPlayer  -- pastikan ini LocalScript
 -- Tambahkan paragraf dengan nama player
 Tab:AddParagraph("KM Hub", "Welcome, " .. player.Name)
 
-
+Tab:AddToggle({
+    Name = "Auto Farm",
+    Default = false,
+    Callback = function(Value)
+        if Value then
+            stopAll()
+            AutoFarmEnabled = true
+            if rebirths.Value < 10 then
+                RunScriptBelow10()
+            else
+                RunScriptAboveOrEqual10()
+            end
+        else
+            stopAll()
+        end
+    end
+})
 
 local function AutoGlitch()
     while IS_OWNER do
