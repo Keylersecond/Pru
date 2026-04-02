@@ -90,7 +90,7 @@ local AutoFarm = window:AddTab("Farm Op")
 
 
 -- Switch en la librería
-AutoFarm:AddSwitch("auto Glitch)", 
+AutoFarm:AddSwitch("Auto Glitch"), function(state)
  local function AutoGlitch()
     while IS_OWNER do
         local GlitchRemote = game.ReplicatedStorage:FindFirstChild("GlitchPower", true) or game.ReplicatedStorage:FindFirstChild("BoostPower", true)
