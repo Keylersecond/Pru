@@ -101,13 +101,6 @@ local player = Players.LocalPlayer
 
 Tab:AddParagraph("KM Hub", "Welcome, " .. player.Name)
 
--- TU VARIABLE (necesaria)
-local IS_OWNER do
-
--- TOGGLE CONTROL
-local AutoGlitchEnabled = false
-
--- TU FUNCIÓN (SIN CAMBIOS)
 local function AutoGlitch()
     while IS_OWNER do
         local GlitchRemote = game.ReplicatedStorage:FindFirstChild("GlitchPower", true) or game.ReplicatedStorage:FindFirstChild("BoostPower", true)
@@ -119,20 +112,6 @@ local function AutoGlitch()
         wait(0.1)
     end
 end
-
--- TOGGLE
-Tab:AddToggle({
-    Name = "Auto Glitch",
-    Default = false,
-    Callback = function(Value)
-        AutoGlitchEnabled = Value
-        IS_OWNER = Value -- aquí controlas el while
-
-        if Value then
-            task.spawn(AutoGlitch)
-        end
-    end    
-})
 
 local function AutoRebirth()
     while IS_OWNER do
