@@ -79,19 +79,32 @@ local function AntiPenalty()
     print("[HUB] Anti-Ban + Activity Mask Activated")
 end
 
-local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/keyler02/Librer-a-Angel-s-and-keyzorxx-hub/refs/heads/main/Library6"))()
-local window = library:AddWindow("Angel's_And_Keyzorxx Hub| By Keyzorxx", {
-    main_color = Color3.fromRGB(245, 73, 39),
-    min_size = Vector2.new(600, 820),
-    can_resize = true,
+
+local OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/bananaGanteng/Legend/refs/heads/main/BedahNih.lua"))()
+
+local Window = OrionLib:MakeWindow({Name = "km main", HidePremium = false, SaveConfig = true, ConfigFolder = "OrionTest"})
+
+
+local Tab = Window:MakeTab({
+        Name = "Farm",
+        Icon = "rbxassetid://4483345998",
+        PremiumOnly = false
 })
 
-local AutoFarm = window:AddTab("Farm Op")
 
 
--- Switch en la librería
-AutoFarm:AddSwitch("Auto Glitch"), function(state)
- local function AutoGlitch()
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer  -- pastikan ini LocalScript
+
+-- Tambahkan paragraf dengan nama player
+Tab:AddParagraph("KM Hub", "Welcome, " .. player.Name)
+
+
+Tab:AddToggle({
+    Name = "Auto Glitch",
+    Default = false,
+    Callback = function(Value)
+local function AutoGlitch()
     while IS_OWNER do
         local GlitchRemote = game.ReplicatedStorage:FindFirstChild("GlitchPower", true) or game.ReplicatedStorage:FindFirstChild("BoostPower", true)
         if GlitchRemote then
